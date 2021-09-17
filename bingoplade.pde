@@ -31,9 +31,8 @@ void draw() {
   drawBingo();
   drawLastNumber();
   findValue(lastCalledNumber);
-  
-  
-  }
+  sortHash();
+}
 void mousePressed() {
   // jeg er nød til at bruge en global variabel ellers kan jeg ikke udskrive værdien
   lastCalledNumber = calledNumber();
@@ -75,20 +74,16 @@ int findExistingValue(int x, int row) {
 }
 
 void findValue(int x) {
-
   for (int i =0; i<9; i++) {
     for (int j =0; j<3; j++) {
       // if (plade[i][j]==x ) {
-      if (calledNumbers.contains(plade[i][j])){
-        fill(255,0,0);
-        square((i+1)*45, j*40+20, 30);
+      if (calledNumbers.contains(plade[i][j])) {
+        fill(255, 0, 0,30);
+        square((i+1)*45, j*40+16, 28);
         fill(255);
-
-        
       }
     }
   }
-  
 }
 
 
@@ -123,13 +118,36 @@ int calledNumber() {
 }
 
 void drawLastNumber() {
- if (lastCalledNumber != 0){
-  text(lastCalledNumber, 50, 200);
- }
+  if (lastCalledNumber != 0) {
+    text(lastCalledNumber, 50, 200);
+  }
 }
 
-void sortHash (){
+void sortHash () {
+  int[] callednr = new int[calledNumbers.size()];
+  int j =0;
+  
+  // h= height, w= width
+  int h =0;
+  int w =0;
   for (int i : calledNumbers) {
-  System.out.println(i);
-}
+    
+    callednr[j] =i;
+    System.out.println(i);
+    j++;
+  }
+  Arrays.sort(callednr);
+  
+  
+  for(int i=0; i<callednr.length;i++){
+    if (h*40+100>width)
+    {
+    h=0;
+    w=w+35;
+    }
+    text(callednr[i],50+h*40,300+w);
+    h++;
+    
+  }
+  
 }
