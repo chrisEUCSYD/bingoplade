@@ -1,8 +1,14 @@
-import java.util.Arrays; //<>//
+// skal sige til npr en række er fuld //<>//
+// skal beregne sansynligheden for at det næste tal er "rigtigt"
+
+
+
+import java.util.Arrays;
 import java.util.HashSet;
 
 // 2d array
 int[][] plade = new int[9][3];
+
 // trukne numre
 HashSet<Integer> calledNumbers = new HashSet<Integer>();
 int lastCalledNumber ;
@@ -32,6 +38,11 @@ void draw() {
   drawLastNumber();
   findValue(lastCalledNumber);
   sortHash();
+
+  for (int i=0; i<3; i++) {
+    if (completeRow(i))
+      text("You completed at row!!", 100, 200);
+  }
 }
 void mousePressed() {
   // jeg er nød til at bruge en global variabel ellers kan jeg ikke udskrive værdien
@@ -78,7 +89,7 @@ void findValue(int x) {
     for (int j =0; j<3; j++) {
       // if (plade[i][j]==x ) {
       if (calledNumbers.contains(plade[i][j])) {
-        fill(255, 0, 0,30);
+        fill(255, 0, 0, 30);
         square((i+1)*45, j*40+16, 28);
         fill(255);
       }
@@ -126,28 +137,48 @@ void drawLastNumber() {
 void sortHash () {
   int[] callednr = new int[calledNumbers.size()];
   int j =0;
-  
+
   // h= height, w= width
   int h =0;
   int w =0;
   for (int i : calledNumbers) {
-    
+
     callednr[j] =i;
     System.out.println(i);
     j++;
   }
   Arrays.sort(callednr);
-  
-  
-  for(int i=0; i<callednr.length;i++){
+
+  text("antal trukne tal: "+callednr.length, 50, 250);
+  for (int i=0; i<callednr.length; i++) {
     if (h*40+100>width)
     {
-    h=0;
-    w=w+35;
+      h=0;
+      w=w+35;
     }
-    text(callednr[i],50+h*40,300+w);
+    text(callednr[i], 50+h*40, 300+w);
     h++;
-    
   }
+}
+
+boolean completeRow(int x) {
+  int count=0;
+  
+  
+  if (calledNumbers.size()>5) {
+    for (int i=0; i<9; i++) {
+      if (!calledNumbers.contains(plade[i][x])   ) {
+        
+      } else
+      {
+        count++;
+      }
+    }
+  }
+
+   if(count >4)
+    return true;
+    else
+    return false;
   
 }
