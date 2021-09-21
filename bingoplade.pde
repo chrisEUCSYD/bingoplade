@@ -11,11 +11,13 @@ int[][] plade = new int[9][3];
 
 // trukne numre
 HashSet<Integer> calledNumbers = new HashSet<Integer>();
+
+// gemmer det sidste trukne tal
 int lastCalledNumber ;
 
 
 void setup() {
-  size(600, 600);
+  size(800, 600);
   textSize(30);
   //initiering af mit 2d array med tilfældige værdier.
   // der er 9 colonner. ettere, toere, treere ..... ganger jeg med ti passer det.
@@ -34,16 +36,19 @@ void setup() {
 
 void draw() {
   background(200);
+  // udskriv bingoplade
   drawBingo();
+  //udskriver det sidste trukne nummer til skærm 
   drawLastNumber();
+  // farv feltet rød hvis jeg har værdien
   findValue(lastCalledNumber);
+  // sorter mit array så jeg kan udskrive trukne tal i rækkefølge
   sortHash();
-
-  for (int i=0; i<3; i++) {
-    if (completeRow(i))
-      text("You completed at row!!", 100, 200);
-  }
+  // hvis en række er fyld skrive jeg en besked ud på skærmen
+  findRow();
 }
+
+
 void mousePressed() {
   // jeg er nød til at bruge en global variabel ellers kan jeg ikke udskrive værdien
   lastCalledNumber = calledNumber();
@@ -85,9 +90,9 @@ int findExistingValue(int x, int row) {
 }
 
 void findValue(int x) {
+  // loop igennem 2d array og led efter det sidste trukne nummer hvis den finde farves den rød
   for (int i =0; i<9; i++) {
     for (int j =0; j<3; j++) {
-      // if (plade[i][j]==x ) {
       if (calledNumbers.contains(plade[i][j])) {
         fill(255, 0, 0, 30);
         square((i+1)*45, j*40+16, 28);
@@ -123,7 +128,7 @@ int calledNumber() {
   }
   // nu ved vi at det ikke findes i forvejen så derfor kan vi tilføje
   calledNumbers.add(i);
-  printArray(calledNumbers);
+
   // retuner det fundne tal
   return i;
 }
@@ -144,7 +149,7 @@ void sortHash () {
   for (int i : calledNumbers) {
 
     callednr[j] =i;
-    System.out.println(i);
+
     j++;
   }
   Arrays.sort(callednr);
@@ -163,12 +168,11 @@ void sortHash () {
 
 boolean completeRow(int x) {
   int count=0;
-  
-  
+
+
   if (calledNumbers.size()>5) {
     for (int i=0; i<9; i++) {
       if (!calledNumbers.contains(plade[i][x])   ) {
-        
       } else
       {
         count++;
@@ -176,9 +180,15 @@ boolean completeRow(int x) {
     }
   }
 
-   if(count >4)
+  if (count >4)
     return true;
-    else
+  else
     return false;
-  
+}
+
+void findRow() {
+  for (int i=0; i<3; i++) {
+    if (completeRow(i))
+      text("You completed row  "+(i+1)+"!!", 450, 50+i*35);
+  }
 }
