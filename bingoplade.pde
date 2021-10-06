@@ -1,6 +1,4 @@
-// skal sige til npr en række er fuld //<>//
-// skal beregne sansynligheden for at det næste tal er "rigtigt"
-
+// skal beregne sansynligheden for at det næste tal er "rigtigt" //<>//
 
 
 import java.util.Arrays;
@@ -63,12 +61,12 @@ int[] generateRow(int i) {
   HashSet<Integer> p = new HashSet<Integer>();
   int[] tempArray = new int[3];
 
-  // flyder med tilfældige værdier
+  // bliver ved med at fylde med tilfældige værdier indtil størrelsen er mere end 3
   while (p.size()<3) {
     p.add(int(random(1, 10)+(i*10)));
   }
 
-  // lav om til int[]
+  // lav om til int[] - array
   int j=0;
   for (Integer i1 : p) {
     tempArray[j] = i1;
