@@ -1,2 +1,3 @@
 læs denne
 huskeliste
+server
