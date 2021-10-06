@@ -1,1 +1,2 @@
 læs denne
+huskeliste
