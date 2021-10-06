@@ -15,7 +15,7 @@ int lastCalledNumber ;
 
 
 void setup() {
-  size(800, 600);
+  size(1200, 600);
   textSize(30);
   //initiering af mit 2d array med tilfældige værdier.
   // der er 9 colonner. ettere, toere, treere ..... ganger jeg med ti passer det.
@@ -39,7 +39,9 @@ void draw() {
   //udskriver det sidste trukne nummer til skærm 
   drawLastNumber();
   // farv feltet rød hvis jeg har værdien
-  findValue(lastCalledNumber);
+  for (int i : calledNumbers) {
+    findValue(i);
+  }
   // sorter mit array så jeg kan udskrive trukne tal i rækkefølge
   sortHash();
   // hvis en række er fyld skrive jeg en besked ud på skærmen
@@ -87,13 +89,18 @@ int findExistingValue(int x, int row) {
   return k;
 }
 
-void findValue(int x) {
+void findValue(int nummer) {
   // loop igennem 2d array og led efter det sidste trukne nummer hvis den finde farves den rød
   for (int i =0; i<9; i++) {
     for (int j =0; j<3; j++) {
-      if (calledNumbers.contains(plade[i][j])) {
+      if (nummer == plade[i][j]) {
         fill(255, 0, 0, 30);
-        square((i+1)*45, j*40+16, 28);
+        rectMode(CENTER);
+        pushMatrix();
+        translate(i*50+100, j*50+50);
+        square(25, 25, 50);
+        popMatrix();
+        rectMode(CORNER);  
         fill(255);
       }
     }
@@ -108,21 +115,31 @@ void placeZero(int x) {
 void drawBingo() { // tegner bingopladen
   for (int i =0; i<9; i++) {
     for (int j =0; j<3; j++) {
-      if (plade[i][j]==0)
-        square((i+1)*45, j*40+20, 30);
-      else
-        text(plade[i][j], (i+1)*45, (j+1)*40);
+      if (plade[i][j]==0) {
+        rectMode(CENTER);
+        pushMatrix();
+        translate(i*50+100, j*50+50);
+        square(25, 25, 50);
+        popMatrix();
+        rectMode(CORNER);
+      } else {
+        pushMatrix();
+        translate(i*50+100, j*50+100);
+        textAlign(CENTER);
+        text(plade[i][j], 25, -15);
+        textAlign(LEFT);
+        popMatrix();
+      }
     }
   }
 }
 
-
 int calledNumber() {
   // generer random tal
-  int i = int(random(1, 99));
+  int i = int(random(1, 91));
   // bliv ved med at generere indtil det ikke findes i hashset
   while (calledNumbers.contains(i)) {
-    i=int(random(1, 99));
+    i=int(random(1, 91));
   }
   // nu ved vi at det ikke findes i forvejen så derfor kan vi tilføje
   calledNumbers.add(i);
@@ -186,7 +203,13 @@ boolean completeRow(int x) {
 
 void findRow() {
   for (int i=0; i<3; i++) {
-    if (completeRow(i))
-      text("You completed row  "+(i+1)+"!!", 450, 50+i*35);
+    if (completeRow(i)) {
+      rectMode(CENTER);
+      pushMatrix();
+      translate(50+600, i*50+50);
+      text("You completed row  "+(i+1)+"!!", 25, 25);
+      popMatrix();
+      rectMode(CORNER);
+    }
   }
 }

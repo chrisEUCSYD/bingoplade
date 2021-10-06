@@ -11,11 +11,13 @@ int dataIn;
 // 2d array
 int[][] plade = new int[9][3];
 
+
+
 // trukne numre
 HashSet<Integer> calledNumbers = new HashSet<Integer>();
 
 // gemmer det sidste trukne tal
-// haram!! int lastCalledNumber ;
+
 
 
 void setup() {
@@ -26,7 +28,7 @@ void setup() {
   // This example will not run if you haven't
   // previously started a server on this port.
   myClient = new Client(this, "192.168.87.160", 5204);
-  
+
   // log på server
   myClient.write("Christian,DixiKidGamePlayer");
 
@@ -115,18 +117,22 @@ void findValue(int nummer) {
   // loop igennem 2d array og led efter det sidste trukne nummer hvis den finde farves den rød
   for (int i =0; i<9; i++) {
     for (int j =0; j<3; j++) {
-      //if (calledNumbers.contains(plade[i][j])) {
       if (nummer == plade[i][j]) {
         fill(255, 0, 0, 30);
-          
-        square((i+1)*45, j*40+16, 30);
+        rectMode(CENTER);
+        pushMatrix();
+        translate(i*50+100, j*50+50);
+        square(25, 25, 50);
+        popMatrix();
+        rectMode(CORNER);  
+        //square((i+1)*45, j*40+16, 30);
         fill(255);
       }
     }
   }
 }
 
-
+// laver de blanke felter
 void placeZero(int x) {
   plade[int(random(0, 9))][x] = 0;
 }
@@ -134,10 +140,21 @@ void placeZero(int x) {
 void drawBingo() { // tegner bingopladen
   for (int i =0; i<9; i++) {
     for (int j =0; j<3; j++) {
-      if (plade[i][j]==0)
-        square((i+1)*45, j*40+20, 30);
-      else
-        text(plade[i][j], (i+1)*45, (j+1)*40);
+      if (plade[i][j]==0) {
+        rectMode(CENTER);
+        pushMatrix();
+        translate(i*50+100, j*50+50);
+        square(25, 25, 50);
+        popMatrix();
+        rectMode(CORNER);
+      } else {
+        pushMatrix();
+        translate(i*50+100, j*50+100);
+        textAlign(CENTER);
+        text(plade[i][j], 25, -15);
+        textAlign(LEFT);
+        popMatrix();
+      }
     }
   }
 }
@@ -146,21 +163,7 @@ void addDrawnNumber(int number) {
   calledNumbers.add(number);
 }
 
-/*
-int calledNumber() {
- // generer random tal
- int i = int(random(1, 99));
- // bliv ved med at generere indtil det ikke findes i hashset
- while (calledNumbers.contains(i)) {
- i=int(random(1, 99));
- }
- // nu ved vi at det ikke findes i forvejen så derfor kan vi tilføje
- calledNumbers.add(i);
- 
- // retuner det fundne tal
- return i;
- }
- */
+
 void drawLastNumber(int lastCalledNumber) {
   if (lastCalledNumber != 0) {
     text(lastCalledNumber, 50, 200);
@@ -194,8 +197,6 @@ void sortHash () {
 
 boolean completeRow(int x) {
   int count=0;
-
-
   if (calledNumbers.size()>5) {
     for (int i=0; i<9; i++) {
       if (!calledNumbers.contains(plade[i][x])   ) {
@@ -213,18 +214,29 @@ boolean completeRow(int x) {
 }
 
 void findRow() {
-   
   for (int i=0; i<3; i++) {
-    if (completeRow(i))
-   
-      text("You completed row  "+(i+1)+"!!", 450, 50+i*35);
+    if (completeRow(i)) {
+      rectMode(CENTER);
+      pushMatrix();
+      translate(50+600, i*50+50);
+      text("You completed row  "+(i+1)+"!!", 25, 25);
+      popMatrix();
+      rectMode(CORNER);
+    }
   }
 }
 
-void drawMatrix(){
-  for (int i =0; i<width;i++){
-    if(i % 45 ==0){
-    line(i,0,i,height);
+void drawMatrix() {
+
+  int startValue =50;
+  for (int i =startValue; i<width; i++) {
+    if (i % 50 ==0) {
+      //   line(i,0,i,height);
+    }
+  }
+  for (int i =startValue; i<height; i++) {
+    if (i % 50 ==0) {
+      //    line(0,i,width,i);
     }
   }
 }
