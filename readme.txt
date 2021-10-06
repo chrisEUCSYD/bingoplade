@@ -1,0 +1,3 @@
+læs denne
+huskeliste
+server
