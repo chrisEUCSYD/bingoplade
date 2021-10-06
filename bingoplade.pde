@@ -15,7 +15,7 @@ int lastCalledNumber ;
 
 
 void setup() {
-  size(1200, 600);
+  size(1200, 800);
   textSize(30);
   //initiering af mit 2d array med tilfældige værdier.
   // der er 9 colonner. ettere, toere, treere ..... ganger jeg med ti passer det.
@@ -170,13 +170,21 @@ void sortHash () {
   Arrays.sort(callednr);
 
   text("antal trukne tal: "+callednr.length, 50, 250);
+  
   for (int i=0; i<callednr.length; i++) {
     if (h*40+100>width)
     {
       h=0;
       w=w+35;
     }
-    text(callednr[i], 50+h*40, 300+w);
+    
+    int y = floor(callednr[i] / 10);
+    int x = callednr[i] % 10;
+    pushMatrix();
+    translate(100+x*50,y*50+300);
+    
+    text(callednr[i], 0, 0);
+    popMatrix();
     h++;
   }
 }
